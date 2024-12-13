@@ -22,7 +22,7 @@
 
 #---------- GoLang -----------#
 # First stage (Builder):
-FROM vhiveease/golang-builder:latest AS hotelBuilder
+FROM vhiveease/golang-builder:latest AS hotelbuilder
 WORKDIR /app/app/
 ARG SERVICE=geo
 
@@ -39,7 +39,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -v -o ./server .
 # Second stage (Runner):
 FROM scratch
 WORKDIR /app/
-COPY --from=hotelBuilder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=hotelBuilder /app/app/server .
+COPY --from=hotelbuilder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=hotelbuilder /app/app/server .
 
 ENTRYPOINT [ "/app/server" ]

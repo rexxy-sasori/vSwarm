@@ -40,11 +40,7 @@ all-image: $(ALL_IMAGES)
 %-image: Dockerfile go.mod %/*
 	$(eval func := $(subst -image,,$@))
 	DOCKER_BUILDKIT=1 \
-	docker build \
-	--tag vhiveease/hotel-app-$(func):latest \
-	--build-arg SERVICE=$(func) \
-	-f Dockerfile \
-	$(ROOT)
+	docker buildx build --platform linux/amd64 --tag intel-112:5000/vhiveease/hotel-app-$(func):latest --build-arg SERVICE=$(func) -f Dockerfile $(ROOT)
 
 
 
